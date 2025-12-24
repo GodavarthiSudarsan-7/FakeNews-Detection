@@ -1,0 +1,19 @@
+{
+  "name": "fake-news-classifier",
+  "saved_at": "2025-12-04T16:00:20.312644Z",
+  "artifact": "models/model.joblib",
+  "best_params": {
+    "clf__C": 1.0,
+    "clf__class_weight": "balanced",
+    "tfidf__max_features": 2000,
+    "tfidf__min_df": 1,
+    "tfidf__ngram_range": [
+      1,
+      1
+    ]
+  },
+  "calibrated": true,
+  "calibration_method": "sigmoid",
+  "tfidf": "models/tfidf.joblib",
+  "clf": "models/clf.joblib"
+}

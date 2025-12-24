@@ -1,0 +1,169 @@
+*{box-sizing:border-box}
+body{
+font-family:Georgia,"Times New Roman",serif;
+min-height:100vh;
+margin:0;
+background:
+radial-gradient(circle at center,rgba(255,248,230,.55),rgba(0,0,0,.15)),
+url("https://img.freepik.com/premium-photo/old-newspaper-background-blank-brown-vintage-grunge-paper-texture-textured-newsprint-pattern-with-space-text-wallpaper-design_1028938-332703.jpg")
+center/cover fixed;
+color:#2b2b2b;
+}
+
+.container{
+max-width:980px;
+}
+
+.card{
+background:#fbf7ee;
+border:1px solid #d6cbb2;
+border-radius:6px;
+box-shadow:0 22px 45px rgba(0,0,0,.28);
+}
+
+.header{
+border-bottom:2px solid #2b2b2b;
+padding:22px;
+text-align:center;
+}
+
+.header h1{
+font-size:2.6rem;
+letter-spacing:2px;
+margin:0;
+}
+
+.header small{
+font-size:.9rem;
+letter-spacing:1px;
+text-transform:uppercase;
+}
+
+.form-label{
+font-weight:bold;
+letter-spacing:.6px;
+}
+
+.form-control,textarea{
+border:1px solid #bfae8e;
+border-radius:0;
+background:#fffdf7;
+font-family:Georgia,serif;
+}
+
+.form-control:focus,textarea:focus{
+border-color:#2b2b2b;
+box-shadow:none;
+}
+
+.btn{
+border-radius:0;
+font-weight:bold;
+letter-spacing:.6px;
+}
+
+.btn-primary{
+background:#2b2b2b;
+border:none;
+color:#fff;
+}
+
+.btn-primary:hover{
+background:#000;
+}
+
+.btn-outline-secondary{
+border:1px solid #2b2b2b;
+color:#2b2b2b;
+}
+
+.btn-outline-secondary:hover{
+background:#2b2b2b;
+color:#fff;
+}
+
+.btn-success{
+background:#1f7a3f;
+border:none;
+}
+
+.result-box{
+margin-top:30px;
+padding:22px;
+border:2px solid #2b2b2b;
+background:#fffdf7;
+position:relative;
+}
+
+.verdict{
+font-size:2.2rem;
+font-weight:bold;
+letter-spacing:2px;
+margin-bottom:10px;
+}
+
+.stamp{
+position:absolute;
+top:18px;
+right:18px;
+font-size:2.4rem;
+font-weight:bold;
+border:4px solid;
+padding:8px 14px;
+transform:rotate(-12deg);
+opacity:.85;
+}
+
+.stamp.fake{
+color:#8b0000;
+border-color:#8b0000;
+}
+
+.stamp.real{
+color:#1f7a3f;
+border-color:#1f7a3f;
+}
+
+.stamp.uncertain{
+color:#b45309;
+border-color:#b45309;
+}
+
+.confidence{
+margin-top:10px;
+font-size:1rem;
+letter-spacing:.5px;
+}
+
+.typewriter{
+overflow:hidden;
+white-space:nowrap;
+animation:typing 2.5s steps(40,end);
+}
+
+@keyframes typing{
+from{width:0}
+to{width:100%}
+}
+
+.explain-box{
+margin-top:18px;
+padding:14px;
+border:1px dashed #2b2b2b;
+background:#fdfaf2;
+}
+
+.shap-img{
+margin-top:12px;
+border:1px solid #2b2b2b;
+padding:6px;
+background:#fff;
+}
+
+.snippet-box{
+margin-top:14px;
+padding:14px;
+border:1px solid #2b2b2b;
+background:#fff;
+white-space:pre-wrap;
+}
