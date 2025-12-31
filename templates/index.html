@@ -52,33 +52,26 @@
 <div class="result-box">
 
 <div class="verdict typewriter">
-VERDICT: {{ result.display_label }}
+VERDICT: {{ result.label }}
 </div>
 
-<div class="stamp
-{% if result.display_label=='FAKE' %}fake
-{% elif result.display_label=='REAL' %}real
-{% else %}uncertain{% endif %}">
-{{ result.display_label }}
+<div class="stamp {% if result.label=='REAL' %}real{% else %}fake{% endif %}">
+{{ result.label }}
 </div>
 
 <div class="confidence">
 Confidence Level: {{ (result.confidence*100)|round(1) }}%
 </div>
 
-{% if result.lime %}
+{% if result.explanations %}
 <div class="explain-box">
 <strong>Evidence Analysis</strong>
 <ul>
-{% for w,v in result.lime %}
-<li>{{ w }} → {{ "%.4f"|format(v) }}</li>
+{% for e in result.explanations %}
+<li>{{ e.word }} → {{ "%.4f"|format(e.influence) }}</li>
 {% endfor %}
 </ul>
 </div>
-{% endif %}
-
-{% if result.shap_png %}
-<img src="{{ result.shap_png }}" class="shap-img w-100">
 {% endif %}
 
 </div>
@@ -96,11 +89,11 @@ Confidence Level: {{ (result.confidence*100)|round(1) }}%
 
 <script>
 function fillReal(){
-document.querySelector('[name=title]').value="Scientists confirm water beneath Mars surface";
-document.querySelector('[name=text]').value="Researchers using satellite imagery have confirmed evidence of water beneath the Martian surface."
+document.querySelector('[name=title]').value="ISRO successfully conducts Gaganyaan crew module test";
+document.querySelector('[name=text]').value="The Indian Space Research Organisation successfully conducted a crew module test as part of the Gaganyaan mission."
 }
 function fillFake(){
-document.querySelector('[name=title]').value="Ancient aliens control world governments";
+document.querySelector('[name=title]').value="Aliens secretly control world governments";
 document.querySelector('[name=text]').value="A viral claim suggests extraterrestrial beings secretly run global politics without evidence."
 }
 </script>

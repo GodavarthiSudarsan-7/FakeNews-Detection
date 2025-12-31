@@ -1,0 +1,14 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environment
+.venv/
+
+# ML artifacts
+*.joblib
+*.pkl
+*.h5
+
+# Runtime DB
+*.db

@@ -1,6 +1,6 @@
 {
   "name": "fake-news-classifier",
-  "saved_at": "2025-12-04T16:00:20.312644Z",
+  "saved_at": "2025-12-31T13:09:52.665101Z",
   "artifact": "models/model.joblib",
   "best_params": {
     "clf__C": 1.0,
