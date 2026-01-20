@@ -1,3 +1,5 @@
+class CalibratedPipeline:
+    pass
 
 from flask import Flask, render_template, request, jsonify, send_file
 from predict import FakeNewsPredictor, clean_text
@@ -8,15 +10,12 @@ import io, csv, math, os
 
 app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
-
 THRESHOLD = 0.70
-
 
 init_db()
 predictor = FakeNewsPredictor()
 
 def apply_threshold(raw_label, confidence, threshold=THRESHOLD):
-   
     if confidence is None or (isinstance(confidence, float) and math.isnan(confidence)):
         return raw_label, "No confidence available"
     if confidence >= threshold:
@@ -35,7 +34,6 @@ def predict():
     if not title and not text:
         return render_template('index.html', result={'error': 'Provide title or article text.'}, title=title, text=text)
 
-   
     res = predictor.predict(title, text)
     raw_label = res.get('label')
     confidence = res.get('confidence', 0.0)
@@ -47,7 +45,6 @@ def predict():
     except Exception:
         pass
 
-   
     lime_list = None
     try:
         cleaned = clean_text(str(title) + ' ' + str(text))
@@ -55,18 +52,15 @@ def predict():
     except Exception as e:
         lime_list = [("lime_error", str(e))]
 
-   
     shap_png = None
     try:
         cleaned_for_shap = clean_text(str(title) + ' ' + str(text))
         out_path = os.path.join('static', 'shap_explain.png')
         shap_file = shap_explain_bar([cleaned_for_shap], max_display=10, out_png_path=out_path)
-        
         shap_png = '/' + shap_file.replace('\\','/')
-    except Exception as e:
+    except Exception:
         shap_png = None
 
-   
     res['display_label'] = display_label
     res['note'] = note
     res['threshold'] = THRESHOLD
@@ -80,10 +74,12 @@ def predict_url():
     url = request.form.get('url', '').strip()
     if not url:
         return render_template('index.html', result={'error': 'No URL provided'}, url=url)
+
     fetched = fetch_article_text(url)
     if not fetched:
         return render_template('index.html', result={'error': 'Could not fetch article from the provided URL.'}, url=url)
-    res = predictor.predict('', fetched)
+
+    res = predictor.predict('', fetched, url)
     raw_label = res.get('label')
     confidence = res.get('confidence', 0.0)
     display_label, note = apply_threshold(raw_label, confidence, THRESHOLD)
@@ -94,7 +90,6 @@ def predict_url():
     except Exception:
         pass
 
-    
     lime_list = None
     try:
         cleaned = clean_text(fetched)
@@ -102,7 +97,6 @@ def predict_url():
     except Exception as e:
         lime_list = [("lime_error", str(e))]
 
-   
     shap_png = None
     try:
         cleaned_for_shap = clean_text(fetched)
@@ -127,13 +121,17 @@ def api_predict():
     text = data.get('text', '')
     if not title and not text:
         return jsonify({'error': 'provide title or text'}), 400
+
     res = predictor.predict(title, text)
-    raw_label = res.get('label'); confidence = res.get('confidence', 0.0)
+    raw_label = res.get('label')
+    confidence = res.get('confidence', 0.0)
     display_label, note = apply_threshold(raw_label, confidence, THRESHOLD)
+
     try:
         save_prediction(title, (text or '')[:800], '', raw_label, confidence, str(res.get('explanations')))
     except Exception:
         pass
+
     res['display_label'] = display_label
     res['note'] = note
     res['threshold'] = THRESHOLD
@@ -145,16 +143,21 @@ def api_predict_url():
     url = data.get('url', '').strip()
     if not url:
         return jsonify({'error': 'no url provided'}), 400
+
     fetched = fetch_article_text(url)
     if not fetched:
         return jsonify({'error': 'could not fetch article from url'}), 400
-    res = predictor.predict('', fetched)
-    raw_label = res.get('label'); confidence = res.get('confidence', 0.0)
+
+    res = predictor.predict('', fetched, url)
+    raw_label = res.get('label')
+    confidence = res.get('confidence', 0.0)
     display_label, note = apply_threshold(raw_label, confidence, THRESHOLD)
+
     try:
         save_prediction('', fetched[:800], url, raw_label, confidence, str(res.get('explanations')))
     except Exception:
         pass
+
     res['display_label'] = display_label
     res['note'] = note
     res['threshold'] = THRESHOLD

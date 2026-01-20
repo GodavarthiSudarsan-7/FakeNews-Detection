@@ -3,8 +3,10 @@ import re
 import nltk
 from nltk.corpus import stopwords
 import pandas as pd
-import numpy as np
 from urllib.parse import urlparse
+
+class CalibratedPipeline:
+    pass
 
 nltk.download("stopwords", quiet=True)
 STOP = set(stopwords.words("english"))
