@@ -45,6 +45,16 @@ class FakeNewsPredictor:
             self.tfidf = self.model.named_steps.get("tfidf")
             self.clf = self.model.named_steps.get("clf") or self.model.named_steps.get("classifier")
 
+    def _safe_predict_proba(self, content):
+        if hasattr(self.model, "predict_proba"):
+            proba = self.model.predict_proba([content])[0]
+            classes = self.model.classes_
+            return dict(zip(classes, proba))
+        pred = int(self.model.predict([content])[0])
+        if pred == 0:
+            return {0: 0.85, 1: 0.15}
+        return {0: 0.15, 1: 0.85}
+
     def _get_feature_names(self):
         if self.tfidf is None:
             return None
@@ -89,9 +99,7 @@ class FakeNewsPredictor:
             }
 
         content = clean_text(str(title) + " " + str(text))
-        proba = self.model.predict_proba([content])[0]
-        classes = self.model.classes_
-        prob_map = dict(zip(classes, proba))
+        prob_map = self._safe_predict_proba(content)
 
         real_prob = prob_map.get(0, 0.0)
         fake_prob = prob_map.get(1, 0.0)
