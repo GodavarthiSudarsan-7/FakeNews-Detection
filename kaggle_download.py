@@ -3,7 +3,7 @@ import subprocess
 import os
 import sys
 
-def download():
+def download()
     os.makedirs("data/raw", exist_ok=True)
     print("Downloading Fake & Real News Dataset using your Python interpreter...")
     cmd = [sys.executable, "-m", "kaggle", "datasets", "download",
